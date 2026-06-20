@@ -23,7 +23,7 @@ for i, up in enumerate(updates):
     ts = now - datetime.timedelta(hours=(8-i))
     fn = f"PEDAGOGY_TRAINING_{i+1}.md"
     path = os.path.join(TARGET_DIR, fn)
-    
+
     content = f"""# 🧠 SELF-PEDAGOGY LOG: {up['topic']}
 **[TIMESTAMPED BY AICHAT: {ts.strftime('%Y-%m-%d %H:%M:%S')}]**
 
@@ -38,7 +38,7 @@ for i, up in enumerate(updates):
 - **Failover Status:** Watchdog Active (120s limit)
 
 ## SUMMARY
-The system has autonomously trained itself to recognize {up['topic']} as a core capability. 
+The system has autonomously trained itself to recognize {up['topic']} as a core capability.
 Mirroring successful, state synced to GitHub.
 """
     with open(path, 'w') as f:

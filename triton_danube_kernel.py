@@ -14,7 +14,7 @@ class TritonPagedAttention:
         self.logical_to_physical = {}
         self.blocks = [] # Simulating SRAM block allocation
         print(f"[+] PagedAttention initialized. Block size: {block_size}, Max Context: {max_context}")
-        
+
     def allocate_block(self, logical_idx):
         """Mathematical PagedAttention block allocation. Prevents memory fragmentation."""
         physical_idx = len(self.blocks)
@@ -47,10 +47,10 @@ class AsynchronousSampler:
         for tok in history_tokens:
             if tok in raw_logits:
                 raw_logits[tok] /= repetition_penalty
-                
+
         # Temperature scale
         scaled = {k: v / temperature for k, v in raw_logits.items()}
-        
+
         # Sort for Top-P (Simulation)
         return "Selected_Token_Optimized"
 
