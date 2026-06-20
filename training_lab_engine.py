@@ -52,16 +52,16 @@ class TritonChooserLab:
         db = random.choices(DATABASES, weights=[self.weights.get(x, 1.0) for x in DATABASES])[0]
         fmt = random.choices(TRITON_PROMPT_FORMATS, weights=[self.weights.get(x, 1.0) for x in TRITON_PROMPT_FORMATS])[0]
         org = random.choice(ORGANIZATIONS)
-        
+
         complexity = random.random()
         kernel = self.triton_chooser_logic(complexity)
 
         event_id = hashlib.md5(f"{frontend}{db}{org}{fmt}{gen_id}".encode()).hexdigest()[:8]
-        
+
         # Optimal middle search: 0.5 is target
-        speed_boost = 1.0 - abs(0.5 - complexity) 
+        speed_boost = 1.0 - abs(0.5 - complexity)
         stability_score = random.uniform(0.85, 0.99)
-        
+
         report = {
             "event_id": event_id,
             "gen_id": gen_id,
@@ -104,7 +104,7 @@ class TritonChooserLab:
 - **Status:** {report['metrics']['bell_curve_position']}
 
 ### DARWINIAN DISCOVERY
-Permutation Gen {report['gen_id']} demonstrates that Triton favors `{report['config']['triton_prompt_format']}` for high-stability loops. 
+Permutation Gen {report['gen_id']} demonstrates that Triton favors `{report['config']['triton_prompt_format']}` for high-stability loops.
 """
         with open(md_path, 'w') as f:
             f.write(md_content)
