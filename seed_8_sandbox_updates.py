@@ -25,7 +25,7 @@ for i, mut in enumerate(mutations):
     time_str = timestamp.strftime("%Y-%m-%d %H:%M:%S")
     file_name = f"gen_{mut['gen']}_{timestamp.strftime('%Y%m%d_%H%M%S')}.md"
     file_path = os.path.join(SANDBOX_DIR, file_name)
-    
+
     content = f"""# 🧬 GENETIC MUTATION RECORD: Generation {mut['gen']}
 **[TIMESTAMPED BY AICHAT: {time_str}]**
 
@@ -43,5 +43,5 @@ for i, mut in enumerate(mutations):
 """
     with open(file_path, 'w') as f:
         f.write(content)
-        
+
 print("[+] Successfully seeded 8 genetic iterations into training_sandbox.")

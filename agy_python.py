@@ -39,7 +39,7 @@ def call_openrouter(prompt):
     if not api_key:
         print("Error: OpenRouter API key not found in aichat config.")
         sys.exit(1)
-    
+
     headers = {
         "Authorization": f"Bearer {api_key}",
         "HTTP-Referer": "https://github.com/chrisalunlloyd2-sudo",
@@ -58,12 +58,12 @@ def call_openrouter(prompt):
     resp = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=data)
     resp.raise_for_status()
     text = resp.json()['choices'][0]['message']['content']
-    
+
     if "```bash" in text:
         text = text.split("```bash")[1].split("```")[0]
     elif "```" in text:
         text = text.split("```")[1].split("```")[0]
-    
+
     for line in text.split('\n'):
         line = line.strip()
         if not line: continue
@@ -71,7 +71,7 @@ def call_openrouter(prompt):
         if line.startswith(("echo", "touch", "mkdir", "python", "sqlite3", "sed", "cat", "curl", "nc", "ls", "git", "bash")):
             text = line
             break
-            
+
     text = text.split("<|")[0].strip()
     log_interaction(prompt, text)
     return text

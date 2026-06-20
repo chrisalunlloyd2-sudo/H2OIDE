@@ -13,7 +13,7 @@ def prune_prompt(prompt_text, max_len=256):
     """
     if len(prompt_text) <= max_len:
         return prompt_text
-    
+
     # Simple semantic algebra: rank words by length/importance
     words = prompt_text.split()
     dense_words = [w for w in words if len(w) > 3 or w.isupper() or '<|' in w]
@@ -41,20 +41,20 @@ def get_environmental_penalty():
         with open("/sys/class/thermal/thermal_zone0/temp", "r") as f:
             temp = int(f.read().strip()) / 1000.0
             return max(0, temp - 35.0) * 10  # Penalty for temps > 35C
-    except:
+    except Exception:
         return 0
 
 def fitness(response_text, duration):
     response_text = response_text.strip()
     length_penalty = len(response_text)
     env_penalty = get_environmental_penalty()
-    
+
     correctness = 0
     if "touch " in response_text and "txt.txt" in response_text:
         correctness = 1000
     if "mkdir" in response_text:
         correctness -= 500
-        
+
     # Combinatorial fitness algebraic equation
     score = correctness - length_penalty - (duration * 10) - env_penalty
     return score, response_text
@@ -69,16 +69,16 @@ def run_darwin_loop():
         pruned_p = prune_prompt(p)
         state_hash = hash_state(pruned_p)
         print(f"[-] State [S_{state_hash}] Evaluating...")
-        
+
         # We skip actual execution here if we are just testing the algebra loop logic
         # Normally this hits the LLM. We will simulate the latency and result.
-        time.sleep(0.1) 
+        time.sleep(0.1)
         duration = 0.1
         text = "touch ~/downloads/txt.txt" # Simulated successful output
-        
+
         score, clean_text = fitness(text, duration)
         print(f"Gen {i} | Time: {duration:.2f}s | Score: {score:.1f} | Output: {clean_text}")
-        
+
         if score > best_score:
             best_score = score
             best_prompt_idx = i
