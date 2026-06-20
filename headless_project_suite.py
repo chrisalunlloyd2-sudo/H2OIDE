@@ -39,13 +39,13 @@ def inject_context(prompt):
     state = get_state()
     rm = state.get('roadmap', [])
     step = state.get('current_step', 0)
-    
+
     if rm and step < len(rm):
         step_desc = rm[step]
         progress = f"Step {step+1}/{len(rm)}: {step_desc}"
     else:
         progress = "Awaiting Project Initialization"
-        
+
     context = (
         f"[CONTINUE WORKSPACE CONTEXT]\n"
         f"Phase: {state.get('current_phase')}\n"

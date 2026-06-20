@@ -18,7 +18,7 @@ class H2OIDE(cmd.Cmd):
     =======================================================
        🌊 H2O CLI IDE - PEDAGOGY MATRIX (32-BIT/GGUF) 🌊
     =======================================================
-    Local IDE / Agentic Network Node. 
+    Local IDE / Agentic Network Node.
     Models: AI Studio (Gemini) | Danube Fallback
     Type /help or ? to list commands.
     """
@@ -29,7 +29,7 @@ class H2OIDE(cmd.Cmd):
         self.gemini_api_key = self.extract_gemini_key()
         if not self.gemini_api_key:
             print("[!] AI Studio (Gemini) API Key not found. Will run in simulated fallback mode for tests.")
-        
+
         # Init layered database
         init_layered_schema()
         self.session_id = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -73,7 +73,7 @@ class H2OIDE(cmd.Cmd):
             ]
         }
         headers = {"Content-Type": "application/json"}
-        
+
         # Ensure Gemini Key is exposed for LiteLLM's os.environ if we parsed it
         if self.gemini_api_key and 'GEMINI_API_KEY' not in os.environ:
             os.environ['GEMINI_API_KEY'] = self.gemini_api_key
@@ -99,7 +99,7 @@ class H2OIDE(cmd.Cmd):
     def call_ai_engine(self, prompt_text, system_prompt=None):
         if not system_prompt:
             system_prompt = "You are H2O IDE, a highly evolved pedagogical AI. 1. Make GitHub beautifully articulated. 2. Webcrawl to inject steps."
-        
+
         # EXECUTE WITH ANTI-HANG WATCHDOG
         return execute_with_watchdog(self._raw_ai_call, prompt_text, system_prompt)
 
@@ -118,14 +118,14 @@ class H2OIDE(cmd.Cmd):
             try:
                 roadmap = json.loads(roadmap_raw.strip('```json\n').strip('```'))
                 set_roadmap(roadmap)
-            except:
+            except Exception:
                 set_roadmap(["Scaffold", "Webcrawl Inject", "GitHub Polish"])
-        
+
         contextual_line = inject_context(line)
         self.save_conversation('user', contextual_line)
         semantic_dna = f"Agentic System is headless IDE. Context: {contextual_line.splitlines()[0]}. Is the user chatting, asking for bash, or asking for code? Reply exactly with CHAT, BASH, or CODE: {line}"
         intent = self.call_ai_engine(semantic_dna, system_prompt="You are a strict semantic router. Output exactly CHAT, BASH, or CODE.").strip().upper()
-        
+
         if "BASH" in intent:
             sys_prompt = "You are a terminal expert. The user wants a bash command. Provide ONLY the bash command, no prose."
         elif "CODE" in intent:
@@ -133,7 +133,7 @@ class H2OIDE(cmd.Cmd):
             advance_step()
         else:
             sys_prompt = "You are a helpful pedagogical AI assistant. Chat normally with the user."
-            
+
         topology = match_predictive_topology(line)
         if topology and "CODE" in intent:
             contextual_line = f"[PREDICTIVE TOPOLOGY LOADED]\nTEMPLATE:\n{topology['content']}\n\nUSER INTENT:\n{contextual_line}\n\n[TASK]: Fill in the blanks or append properties to this template exactly as requested. Do NOT generate from scratch."

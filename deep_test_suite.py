@@ -16,7 +16,7 @@ test_projects = [
 
 for idx, proj in enumerate(test_projects):
     print(f"\n[ITERATION {idx+1}/10] Initializing Project: '{proj}'")
-    
+
     # 1. Map Project (Simulating the AI Studio JSON Roadmap Creation)
     roadmap = [
         f"Scaffold headless logic for {proj}",
@@ -25,16 +25,16 @@ for idx, proj in enumerate(test_projects):
     ]
     set_roadmap(roadmap)
     print(f"  [+] Headless State Map Locked: {len(roadmap)} steps.")
-    
+
     # 2. Advance through 3 deep conversations
     for conv in range(3):
         # The inject_context simulates what H2OIDE does internally before sending to AI Studio
         context_prompt = inject_context(f"Continuing work on phase {conv+1}...")
-        
+
         # Extracting just the progress line to prove it's tracking correctly
         progress_line = context_prompt.splitlines()[3]
         print(f"    -> [Conv {conv+1}/3] {progress_line}")
-        
+
         advance_step()
 
 print("\n[+] 10x Iterative Testing Complete.")

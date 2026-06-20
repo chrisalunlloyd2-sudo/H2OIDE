@@ -13,7 +13,7 @@ def init_layered_schema():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     # --- LAYER 1: Raw Logs ---
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS layer1_telemetry (
@@ -23,7 +23,7 @@ def init_layered_schema():
         raw_data TEXT
     )
     ''')
-    
+
     # --- LAYER 2: Conversations & RAG Memory ---
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS layer2_conversations (
@@ -31,11 +31,11 @@ def init_layered_schema():
         session_id TEXT,
         role TEXT,
         content TEXT,
-        style TEXT, 
+        style TEXT,
         timestamp TEXT
     )
     ''')
-    
+
     # --- LAYER 3: Darwinistic Prompt Optimization ---
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS layer3_genetic_prompts (
