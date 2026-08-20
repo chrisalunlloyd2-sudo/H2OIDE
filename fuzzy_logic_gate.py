@@ -5,6 +5,7 @@ import json
 TEMPLATE_DIR = os.path.expanduser("~/VIPER_SCRIPT_LIBRARY/templates")
 
 def get_templates():
+    """Get templates (function)."""
     if not os.path.exists(TEMPLATE_DIR):
         return {}
 
