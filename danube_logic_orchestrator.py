@@ -13,7 +13,12 @@ from headless_project_suite import update_state, get_state, inject_context
 # ==============================================================================
 
 class DanubeOrchestrator:
+    """DanubeOrchestrator (class)."""
     def __init__(self, goal):
+        """Init.
+
+        Args: goal.
+        """
         self.raw_goal = goal
         self.scientific_intent = ""
         self.tree_file = "logic_tree.json"
@@ -89,10 +94,12 @@ class DanubeOrchestrator:
             print(f"[!] Planning Error: {e}")
 
     def save_tree(self):
+        """Save tree (function)."""
         with open(self.tree_file, "w") as f:
             json.dump(self.tree, f, indent=4)
 
     def display_tree(self):
+        """Display tree (function)."""
         print("\n" + "="*40)
         print(f" LOGIC TREE: {self.tree['goal']}")
         print("="*40)
@@ -165,6 +172,7 @@ class DanubeOrchestrator:
         subprocess.run(["python3", "github_operator.py", f"autonomous: completed {task_name}"])
 
     def run(self):
+        """Run (function)."""
         if not self.tree["tasks"]:
             self.plan()
 
